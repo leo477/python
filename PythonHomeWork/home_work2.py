@@ -9,7 +9,7 @@ class People:
         self.people.append(person)
 
     def remove_person(self, name, surname):
-        self.people = [person for person in self.people if person["name"] != name and person["surname"] != surname]
+        self.people = [person for person in self.people if person["name"] != name or person["surname"] != surname]
 
     def person_search(self,criteria,value):
         return [person for person in self.people if person[criteria]==value]
@@ -47,6 +47,10 @@ def menu():
                 position = input("Input position: ")
                 salary = input("Input salary: ")
                 p.add_person(name,surname,birthdate,position,salary)
+            case "2":
+                name=input("Input name: ")
+                surname = input("Input surname: ")
+                p.remove_person(name,surname)
             case "4":
                 criteria=input("Input searching criteria(name,surname,birthdate,position,salary): ")
                 value=input(f"Input value for {criteria}: ")
