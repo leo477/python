@@ -57,5 +57,6 @@ def menu():
                 print(p.person_search(criteria,value))
             case "5":p.show_people()
             case "6": break
+            case _:print("Wrong change")
 
 menu()
