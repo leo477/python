@@ -10,7 +10,7 @@ class People:
 
     def remove_person(self, name, surname):
         self.people = [person for person in self.people if person["name"] != name and person["surname"] != surname]
-#
+
     def person_search(self,criteria,value):
         return [person for person in self.people if person[criteria]==value]
 
