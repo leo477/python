@@ -39,3 +39,4 @@ with connect(
         writer = csv.writer(csvfile, delimiter=",")
         writer.writerow([desc[0] for desc in cursor.description])
         writer.writerows(rows)
+    cursor.close()
