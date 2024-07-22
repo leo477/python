@@ -18,8 +18,8 @@ if response.status_code == 200:
                 if item in ("exchangedate", "cc", "rate"):
                     body_item.append(items.get(item))
             body_items.append(body_item)
-    except:
-        print("error")
+    except requests.exceptions.JSONDecodeError:
+        print("exception")
 else:
     print(f"Error: {response.status_code}")
 
