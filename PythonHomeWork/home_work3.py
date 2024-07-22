@@ -7,7 +7,8 @@ valcode = input("Input currency name: ")
 
 url = f"https://bank.gov.ua/NBU_Exchange/exchange_site?start={begin_date}&end=%20{end_date}&valcode={valcode.lower()}&sort=exchangedate&order=desc&json"
 
-body_items = ["Date", "Currency", "Rate"]
+body_items = []
+header=["Date", "Currency", "Rate"]
 response = requests.get(url)
 if response.status_code == 200:
     try:
@@ -23,8 +24,7 @@ if response.status_code == 200:
 else:
     print(f"Error: {response.status_code}")
 
-print(body_items)
-
+table=[header, *body_items]
 with open("example.csv", mode="w") as file:
     writer = csv.writer(file)
-    writer.writerows(body_items)
+    writer.writerows(table)
