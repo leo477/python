@@ -10,20 +10,16 @@ with connect(
         port="5432"
 ) as connection:
     cursor = connection.cursor()
-    try:
-        cursor.execute("create table users ("
-                       "id serial primary key,"
-                       "login varchar(50) NOT NULL,"
-                       "first_name varchar(50) not null,"
-                       "last_name varchar(100) not null,"
-                       "email varchar(100) not null,"
-                       "position varchar(50),"
-                       "phone varchar(20),"
-                       "salary decimal(10,2) default 0)")
-        connection.commit()
-    except psycopg2.errors.DuplicateTable:
-        print("Table didn't create cause it's existed!")
-        connection.rollback()
+    cursor.execute("create table if not exists users ("
+                   "id serial primary key,"
+                   "login varchar(50) NOT NULL,"
+                   "first_name varchar(50) not null,"
+                   "last_name varchar(100) not null,"
+                   "email varchar(100) not null,"
+                   "position varchar(50),"
+                   "phone varchar(20),"
+                   "salary decimal(10,2) default 0)")
+    connection.commit()
     cursor.execute("delete from users")
     cursor.execute("insert into users (login, first_name, last_name, email, position, phone, salary)  "
                    "values ('LOG1', 'Dima', 'Karambych','sweetpie@gmail.com','Programmer','2626345626',4.23),"
