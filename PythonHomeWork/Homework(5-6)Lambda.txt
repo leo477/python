@@ -1,0 +1,33 @@
+import boto3
+import pandas as pd
+import io
+import uuid
+
+s3=boto3.client('s3')
+
+def lambda_handler(event, context):
+    
+    record=event['Records'][0]
+    
+    bucket=record['s3']['bucket']['name']
+    file_key=record['s3']['object']['key']
+    
+    print(bucket)
+    print(file_key)
+    
+    response=s3.get_object(Bucket=bucket, Key=file_key)
+    payload=response["Body"].read().decode('utf-8')
+    
+    print(payload)
+    
+    df = pd.read_csv(io.StringIO(payload))
+    
+    new_file_key =  file_key.replace('1','2').replace('.csv',str(uuid.uuid4()) + '.csv')
+    mask = df['city'] == 'ity2'
+    df.loc[mask, 'city'] = 'New York'
+    new_content = df.to_csv(index=False)
+    s3.put_object(Bucket=bucket, Key=new_file_key, Body=new_content)
+    return response['ContentType']
+
+
+
