@@ -18,7 +18,6 @@ def consumer_1():
         print(msg)
         buffer.append(msg)
 
-        # Check if buffer size reached 50 messages
         if len(buffer) >= 50:
             post_to_file(buffer)
             buffer = []

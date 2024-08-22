@@ -10,7 +10,6 @@ def producer_1():
     producer = KafkaProducer(
         bootstrap_servers='localhost:9092',
         key_serializer=str.encode,
-        # value_serializer=lambda v: json.dumps(v).encode("UTF-8"),
         value_serializer=value_serializer_function
     )
     topic_name='myfirstkafkaTopic'
