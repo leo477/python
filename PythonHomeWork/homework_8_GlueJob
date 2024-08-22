@@ -1,0 +1,34 @@
+import sys
+import boto3
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from pyspark.sql import SparkSession
+from pyspark.sql.window import Window
+from pyspark.sql import functions as F
+
+## @params: [JOB_NAME]
+args = getResolvedOptions(sys.argv, ['JOB_NAME','input_path','output_path'])
+
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
+
+folder_i=args['input_path']
+folder_o=args['output_path']#
+input_path=f"s3://raif-demo-bucket-isl-dimka/{folder_i}/"
+output_path=f"s3://raif-demo-bucket-isl-dimka/{folder_o}/"
+
+data_frame = spark.read.format('csv').option('header', 'true').load(input_path)
+
+transformed_df = data_frame.filter(data_frame['f1'] > 30).withColumnRenamed('f1', 'num').withColumnRenamed('f2', 'nameClient')
+window_spec = Window.orderBy('num')
+transformed_df = transformed_df.withColumn('row_number', F.row_number().over(window_spec))
+
+transformed_df.write.format('json').mode('overwrite').save(output_path)
+
+
+job.commit()
