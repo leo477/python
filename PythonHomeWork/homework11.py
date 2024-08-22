@@ -1,7 +1,7 @@
 import boto3
 
 endpoint_url = 'http://localhost:4566'
-bucket_name = 'my-test-bucket'
+bucket_name = 'raw-data'
 localstack_access_key = 'test'
 localstack_secret_key = 'test'
 
