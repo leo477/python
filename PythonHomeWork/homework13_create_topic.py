@@ -17,5 +17,5 @@ def describe_topics(admin_client: KafkaAdminClient, topic_names: list[str]):
 
 if __name__ == '__main__':
     ac = KafkaAdminClient(bootstrap_servers=["localhost:9092"])
-    #create_topic(ac, 'event1')
-    describe_topics(ac, ["event1"])
+    create_topic(ac, 'myfirstkafkaTopic')
+    describe_topics(ac, ["myfirstkafkaTopic"])
